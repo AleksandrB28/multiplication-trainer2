@@ -26,7 +26,7 @@
       width: 100%;
     }
 
-    input {
+    input, select {
       padding: 0.5rem;
       font-size: 1.2rem;
       margin: 1rem 0;
@@ -52,15 +52,34 @@
       font-weight: bold;
       min-height: 1.5em;
     }
+
+    .score {
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
   <div class="card">
+    <h2>Выбери число для тренировки:</h2>
+    <select id="tableNumber" onchange="nextQuestion()">
+      <option value="">Случайное</option>
+      <!-- от 1 до 10 -->
+      <script>
+        for (let i = 1; i <= 10; i++) {
+          document.write(`<option value="${i}">${i}</option>`);
+        }
+      </script>
+    </select>
+
     <h2 id="question">Сколько будет: 3 × 7?</h2>
     <input type="number" id="answer" placeholder="Ваш ответ" />
     <button onclick="checkAnswer()">Проверить</button>
     <div class="feedback" id="feedback"></div>
-    <p>Правильно: <span id="correct">0</span> | Ошибок: <span id="wrong">0</span></p>
+
+    <div class="score">
+      Правильно: <span id="correct">0</span> | Ошибок: <span id="wrong">0</span>
+    </div>
+
     <button onclick="nextQuestion()">Следующий</button>
   </div>
 
@@ -74,8 +93,15 @@
     }
 
     function nextQuestion() {
-      a = randomInt(1, 10);
-      b = randomInt(1, 10);
+      const selected = document.getElementById("tableNumber").value;
+      if (selected) {
+        a = parseInt(selected);
+        b = randomInt(1, 10);
+      } else {
+        a = randomInt(1, 10);
+        b = randomInt(1, 10);
+      }
+
       document.getElementById("question").textContent = `Сколько будет: ${a} × ${b}?`;
       document.getElementById("answer").value = '';
       document.getElementById("feedback").textContent = '';
@@ -98,7 +124,7 @@
       }
     }
 
-    nextQuestion(); // генерация первого вопроса
+    nextQuestion(); // первый вопрос
   </script>
 </body>
 </html>
