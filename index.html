@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Тренажёр Таблицы Умножения</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f9fafb;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 300px;
+      width: 100%;
+    }
+
+    input {
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      width: 100%;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e40af;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      font-weight: bold;
+      min-height: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 id="question">Сколько будет: 3 × 7?</h2>
+    <input type="number" id="answer" placeholder="Ваш ответ" />
+    <button onclick="checkAnswer()">Проверить</button>
+    <div class="feedback" id="feedback"></div>
+    <p>Правильно: <span id="correct">0</span> | Ошибок: <span id="wrong">0</span></p>
+    <button onclick="nextQuestion()">Следующий</button>
+  </div>
+
+  <script>
+    let correctCount = 0;
+    let wrongCount = 0;
+    let a = 0, b = 0;
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function nextQuestion() {
+      a = randomInt(1, 10);
+      b = randomInt(1, 10);
+      document.getElementById("question").textContent = `Сколько будет: ${a} × ${b}?`;
+      document.getElementById("answer").value = '';
+      document.getElementById("feedback").textContent = '';
+    }
+
+    function checkAnswer() {
+      const userAnswer = parseInt(document.getElementById("answer").value);
+      const feedback = document.getElementById("feedback");
+
+      if (userAnswer === a * b) {
+        feedback.textContent = "Верно!";
+        feedback.style.color = "green";
+        correctCount++;
+        document.getElementById("correct").textContent = correctCount;
+      } else {
+        feedback.textContent = `Неверно. Правильный ответ: ${a * b}`;
+        feedback.style.color = "red";
+        wrongCount++;
+        document.getElementById("wrong").textContent = wrongCount;
+      }
+    }
+
+    nextQuestion(); // генерация первого вопроса
+  </script>
+</body>
+</html>
